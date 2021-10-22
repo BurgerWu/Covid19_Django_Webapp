@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid19_Taiwan_DashBoard</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    {% load static %}
+    <link rel="icon" href="{% static '/images/bg_favicon.png' %}">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href=" {% static '/css/style.css' %} ">
+    </head>
+<body>
+    <div class='container'> 
+        <div class="row"></div>
+        <div class="row"><h1>COVID-19 Taiwan Dashboard</h1></div>
+        <div class="row"></div>        
+    </div>
+
+    <div class='intro'>
+        <p>Covid19 has impacted our life since 2020 in many aspects. As a Taiwanese citizen, we were lucky to survive the crisis in 2020. 
+            However, we were struck by Covid19 as well in 2021. In this project, we grabbed raw data from Taiwanese government and applied
+            data science tools to collect useful data. Finally, the information will be present to you using a web app as you see right now.
+            Hope we would never forget what Covid19 taught us and wish that normal days will soon be back.</p>
+    </div>
+    <div>
+        {% block body %}{{value}}{% endblock %}
+    </div>
+    <h2><strong>Cases Statistics</strong></h2>
+    <div class='total_stats'>
+        <h3>Total Covid-19 Cases Til Today</h3>
+        <p class = 'total_number' id='total_case_num'><strong>{{ total_case }}</strong></p>
+    </div>
+   
+
+    <div class='plot_section'>
+        <div class='row'>
+            <div class='col-s-12 col-lg-6 plot'>
+                <h3>Positive Cases Per Day Since 2020</h3>     
+                {%load plotly_dash%}
+
+                {%plotly_app name="ImportedPlot" ratio=0.5%}
+                <!-- {{ daily_case_plot|safe }}   -->
+            </div>
+            <div class='col-s-12 col-lg-6 plot'>
+                <h3>Positive Cases Per Day by County</h3>
+                <!-- {%load plotly_dash%} -->
+
+                {%plotly_app name="CountyPlot" ratio=0.5%}
+            </div>
+            <div class='col-s-12 col-lg-6 plot'>
+                <h3>Positive Cases Per Day By Gender</h3>
+                {{ daily_gender_plot|safe }}
+            </div>
+            <div class='col-s-12 col-lg-6 plot'>
+                <h3>Total Cases By Age Group</h3>
+                {{ total_age_plot|safe }}       
+            </div>
+            <div class='col-md-12 col-lg-6 plot'>
+                <h3>Examinations Per Day with Positive Rate</h3>
+                <!-- Button trigger modal -->
+                <div class="text-right" style="padding-right:50px">
+                    <button type="button" id='exam_instruction_btn', class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Check_Instructions</button>
+                </div>
+                 {{ exam_stats_plot|safe }}
+            </div>
+        </div>
+    </div> 
+    <h2><strong>Vaccination Statistics</strong></h2>
+
+    <div class='total_stats'>
+        <h3>Total Vaccinated Doses Til Today</h3>
+        <p class = 'total_number' id='total_vacc_num'><strong>{{ total_vaccination }}</strong></p>
+    </div>
+
+    <div class='plot_section'>
+        <div class='row'>
+            <div class='col-s-12 col-md-12 col-lg-6 plot'>
+                <h3>Total Vaccination Statistics</h3>
+                <div> {{ daily_vacc_plot|safe }} </div>            
+            </div>
+            <div class='col-s-12 col-md-12 col-lg-6 plot'>
+                <h3>Daily Vaccination Statistics by Brand</h3> 
+                {%load plotly_dash%}
+
+                {%plotly_app name="VaccPlot" ratio=0.5%}
+                <!-- {{ vacc_brand_plot|safe }} -->
+            </div>
+            <div class='col-s-12 col-md-12 col-lg-6 plot'>
+                <h3>Total Vaccination by Brand</h3>
+                {{ total_vacc_plot|safe }}
+            </div>
+        </div>
+    </div>
+    
+    <h2><strong>Acknowledgement</strong></h2>
+    <div class = 'ack'>    
+        <p> Special thanks to those who created following tools so that this project can be completed. 
+        Also, I would like to thank Taiwanese Center of Disease Control and National Center for 
+        High-Performance Computing for providing high quality data resource.</p>
+        
+        <p> Last but no least, thank all of you watching this website. If you have any feedback for me, please
+         click the send feedback button below and fill the form.</p>
+    </div> 
+    <div class="text-right" style="padding-right:20px">
+        <button type="button" id='send_feedback_btn', class="btn btn-info btn-md" data-toggle="modal" data-target="#feedbackmodal">Send Feedback</button>
+    </div>
+    <div class = 'ack_image_div'>
+        {% load static %}
+        <img class = 'ack_image' src='{% static '/images/CDC.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/NCHC.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/airflow.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/django.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/mysql.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/postgresql.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/dash.png' %}'>
+        <img class = 'ack_image' src='{% static '/images/plotly.png' %}'>
+    </div>
+    <div class='intentional_blank' style='height:50px'></div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Instruction of Different Kind of Examination</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li><strong>Reported_Covid19: </strong></li>
+                        Cases that fulfill the conditions of Covid19 reporting recommendation defined by Taiwanese government. Please refer to <a target="_blank" href='https://www.cdc.gov.tw/File/Get/ZtjUSK8CMhvTAUy59TOAYQ'>here</a> for more information
+                    <li><strong>Reported_Home_Quarantine: </strong></li>
+                        Home quarantine or community monitoring cases with covid19 symptoms.
+                    <li><strong>Reported_Enhanced_Surveillance: </strong></li>
+                        Cases not covered within conditions defined by Covid19 reporting recommendation but suspected by clinicians after evaluation. 
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      
+    </div>
+  </div>
+
+    <div class="modal fade" id="feedbackmodal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Provide Your Feedback</h4>
+                </div>
+                <div class="modal-body">
+                    {% include 'includes/submit_form.html' %}
+
+                    {% block content %}
+
+                    {% endblock %} 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="message_modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Submission Result</h4>
+                </div>
+                <div class="modal-body">
+                    {% if messages %}
+                    <ul class="messages">
+                    {% for message in messages %}
+                    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CDN for JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    
+    <!-- JS for Plotly-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src=" {% static '/js/home.js' %} "></script>
+</body>
+</html>
