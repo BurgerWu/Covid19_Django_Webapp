@@ -1,3 +1,4 @@
+#import libraries
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import connections
@@ -13,7 +14,7 @@ from .forms import *
 from .models import FeedBack
 from .Dash_Apps import county_plot, imported_plot, vacc_plot
 import time
-# Create your views here.
+
 
 def index(request):
     """View function for home page of site."""
@@ -21,40 +22,39 @@ def index(request):
     num_visits = request.session.get('num_visits', 1)
     request.session['num_visits'] = num_visits+1
     
+    #Build Mysql connection for later use
     mysql_connection = pymysql.connect(host="127.0.0.1",user='root',password='password',db='airflow',cursorclass=pymysql.cursors.DictCursor)
 
+    #Return total covid19 cases statistics
     total_cases_sql = "SELECT sum(Number_of_Confirmed_Cases) as total_cases FROM covid19_cases"
     total_cases = custom_sql(connections['airflow'], total_cases_sql)[0][0]
 
-    total_vaccincation_sql = "SELECT sum(Total_Vaccinated_Daily) FROM covid19_vaccination"
+    #Return total vaccination statistics
+    total_vaccincation_sql = "SELECT sum(First_Dose_Daily + Second_Dose_Daily) FROM covid19_vaccination"
     total_vaccination = custom_sql(connections['airflow'], total_vaccincation_sql)[0][0]
  
+    #Return options for different counties
     county_options_sql = "SELECT DISTINCT(County_Living) FROM covid19_cases"
     county_options = custom_sql(mysql_connection, county_options_sql)
     county_options = [ x['County_Living'] for x in county_options ]
 
-    daily_case_plot = daily_cases_plotly(request, mysql_connection, 'All')
-    daily_county_plot = daily_county_plotly(request, mysql_connection, 'Taipei City')
-    daily_gender_plot = daily_gender_plotly(request, mysql_connection)
-    total_age_plot = total_age_plotly(request, mysql_connection)
-    exam_stats_plot = exam_stats_plotly(request, mysql_connection)
-    daily_vacc_plot = daily_vacc_plotly(request, mysql_connection)
-    vacc_brand_plot = vacc_brand_plotly(request, mysql_connection, 'AstraZeneca')
-    total_vacc_plot = total_vacc_plotly(request, mysql_connection)
+    #Plotly visualizations
+    daily_gender_plot = daily_gender_plotly(mysql_connection)
+    total_age_plot = total_age_plotly(mysql_connection)
+    exam_stats_plot = exam_stats_plotly(mysql_connection)
+    daily_vacc_plot = daily_vacc_plotly(mysql_connection)
+    total_vacc_plot = total_vacc_plotly(mysql_connection)
 
-    # form = FeedBackForm(initial = {'Date': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+    #Create form for web page
     form = FeedBackForm()
 
+    #Return context to home page view
     context = {'total_case': total_cases,
                'total_vaccination': total_vaccination,
-               'county_options': county_options,
-               'daily_case_plot': daily_case_plot,
-               'daily_county_plot': daily_county_plot,
                'daily_gender_plot': daily_gender_plot,
                'total_age_plot': total_age_plot,
                'exam_stats_plot': exam_stats_plot,
                'daily_vacc_plot': daily_vacc_plot,
-               'vacc_brand_plot': vacc_brand_plot,
                'total_vacc_plot': total_vacc_plot,
                'form': form}
         
@@ -67,17 +67,29 @@ def index(request):
 
 
 def FeedBackSubmitView(request):
- 
+    """View initiated when user submits feedback"""
+    
+    #Check if request is POST type, that is, sending form data back
     if request.method == 'POST':
+
+        #Read the sent back form 
         form = FeedBackForm(request.POST)
+
+        #Check validity
         if form.is_valid():            
             instance = form.save(commit=False)
+
+            #Add date to the form then save to database
             instance.Date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             instance.save()
+
+            #Append success message to messages
             messages.success(request, 'Feedback submitted successfully.')
         else:
+            #Append error message to messages
             messages.error(request, form.errors)
-    #time.sleep(3)
+
+    #After writing into database, redirect to home page
     return HttpResponseRedirect(reverse('index'))
        
 

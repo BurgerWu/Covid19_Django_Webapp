@@ -14,12 +14,13 @@
     <link rel="stylesheet" href=" {% static '/css/style.css' %} ">
     </head>
 <body>
+    <!-- Main title container -->
     <div class='container'> 
         <div class="row"></div>
         <div class="row"><h1>COVID-19 Taiwan Dashboard</h1></div>
         <div class="row"></div>        
     </div>
-
+    <!-- Introduction -->
     <div class='intro'>
         <p>Covid19 has impacted our life since 2020 in many aspects. As a Taiwanese citizen, we were lucky to survive the crisis in 2020. 
             However, we were struck by Covid19 as well in 2021. In this project, we grabbed raw data from Taiwanese government and applied
@@ -29,73 +30,93 @@
     <div>
         {% block body %}{{value}}{% endblock %}
     </div>
+    <!-- First part demonstrates cases related statistics -->
     <h2><strong>Cases Statistics</strong></h2>
+
+    <!-- Show total accumulated cases -->
     <div class='total_stats'>
         <h3>Total Covid-19 Cases Til Today</h3>
         <p class = 'total_number' id='total_case_num'><strong>{{ total_case }}</strong></p>
     </div>
    
-
+    <!-- Below are plot section for cases statistics -->
     <div class='plot_section'>
         <div class='row'>
+            <!-- Interactive div from boostrap, show two columns for large screen -->
             <div class='col-s-12 col-lg-6 plot'>
+               
+                <!-- Show positive cases per day since 2020 as well as imported and domestic cases-->
                 <h3>Positive Cases Per Day Since 2020</h3>     
                 {%load plotly_dash%}
-
                 {%plotly_app name="ImportedPlot" ratio=0.5%}
-                <!-- {{ daily_case_plot|safe }}   -->
             </div>
             <div class='col-s-12 col-lg-6 plot'>
-                <h3>Positive Cases Per Day by County</h3>
-                <!-- {%load plotly_dash%} -->
 
+                <!-- Show positive cases according to county selected -->
+                <h3>Positive Cases Per Day by County</h3>
                 {%plotly_app name="CountyPlot" ratio=0.5%}
             </div>
             <div class='col-s-12 col-lg-6 plot'>
+
+                <!-- Show positive cases by gender -->
                 <h3>Positive Cases Per Day By Gender</h3>
                 {{ daily_gender_plot|safe }}
             </div>
             <div class='col-s-12 col-lg-6 plot'>
+
+                <!-- Show total positive cases according to age group -->
                 <h3>Total Cases By Age Group</h3>
                 {{ total_age_plot|safe }}       
             </div>
             <div class='col-md-12 col-lg-6 plot'>
                 <h3>Examinations Per Day with Positive Rate</h3>
-                <!-- Button trigger modal -->
+                
+                <!-- Button trigger modal that shows the definiation of different kinds of suspects -->
                 <div class="text-right" style="padding-right:50px">
                     <button type="button" id='exam_instruction_btn', class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Check_Instructions</button>
                 </div>
+                <!--  Show examinations per day as well as positive rate-->
                  {{ exam_stats_plot|safe }}
             </div>
         </div>
     </div> 
-    <h2><strong>Vaccination Statistics</strong></h2>
 
+    <!-- Second part demonstrates vaccination related statistics -->
+    <h2><strong>Vaccination Statistics</strong></h2>
+    
+    <!-- Show total vaccinations -->
     <div class='total_stats'>
         <h3>Total Vaccinated Doses Til Today</h3>
         <p class = 'total_number' id='total_vacc_num'><strong>{{ total_vaccination }}</strong></p>
     </div>
-
+    
+    <!-- Below are plot section for vaccination statistics -->
     <div class='plot_section'>
         <div class='row'>
+            <!-- Interactive div from boostrap, show two columns for large screen -->
             <div class='col-s-12 col-md-12 col-lg-6 plot'>
+
+                <!-- Show daily total vaccinations -->
                 <h3>Total Vaccination Statistics</h3>
                 <div> {{ daily_vacc_plot|safe }} </div>            
             </div>
             <div class='col-s-12 col-md-12 col-lg-6 plot'>
+
+                <!-- Show daily vaccinations by brand -->
                 <h3>Daily Vaccination Statistics by Brand</h3> 
                 {%load plotly_dash%}
-
                 {%plotly_app name="VaccPlot" ratio=0.5%}
-                <!-- {{ vacc_brand_plot|safe }} -->
             </div>
             <div class='col-s-12 col-md-12 col-lg-6 plot'>
+
+                <!-- Show total vaccinations of each brand -->
                 <h3>Total Vaccination by Brand</h3>
                 {{ total_vacc_plot|safe }}
             </div>
         </div>
     </div>
     
+    <!-- Acknowledgement -->
     <h2><strong>Acknowledgement</strong></h2>
     <div class = 'ack'>    
         <p> Special thanks to those who created following tools so that this project can be completed. 
@@ -105,9 +126,13 @@
         <p> Last but no least, thank all of you watching this website. If you have any feedback for me, please
          click the send feedback button below and fill the form.</p>
     </div> 
+    
+    <!-- Send feedback button to let users submit their feedback -->
     <div class="text-right" style="padding-right:20px">
         <button type="button" id='send_feedback_btn', class="btn btn-info btn-md" data-toggle="modal" data-target="#feedbackmodal">Send Feedback</button>
     </div>
+
+    <!-- Icons of tools used in this project -->
     <div class = 'ack_image_div'>
         {% load static %}
         <img class = 'ack_image' src='{% static '/images/CDC.png' %}'>
@@ -119,36 +144,38 @@
         <img class = 'ack_image' src='{% static '/images/dash.png' %}'>
         <img class = 'ack_image' src='{% static '/images/plotly.png' %}'>
     </div>
+
+    <!-- Intentionally left blank for page design -->
     <div class='intentional_blank' style='height:50px'></div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal for suspect examination instruction-->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
     
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Instruction of Different Kind of Examination</h4>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <li><strong>Reported_Covid19: </strong></li>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Instruction of Different Kind of Examination</h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li><strong>Reported_Covid19: </strong></li>
                         Cases that fulfill the conditions of Covid19 reporting recommendation defined by Taiwanese government. Please refer to <a target="_blank" href='https://www.cdc.gov.tw/File/Get/ZtjUSK8CMhvTAUy59TOAYQ'>here</a> for more information
-                    <li><strong>Reported_Home_Quarantine: </strong></li>
+                        <li><strong>Reported_Home_Quarantine: </strong></li>
                         Home quarantine or community monitoring cases with covid19 symptoms.
-                    <li><strong>Reported_Enhanced_Surveillance: </strong></li>
+                        <li><strong>Reported_Enhanced_Surveillance: </strong></li>
                         Cases not covered within conditions defined by Covid19 reporting recommendation but suspected by clinicians after evaluation. 
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
-      
     </div>
-  </div>
 
+    <!-- Modal for feedback submission -->
     <div class="modal fade" id="feedbackmodal" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
     
@@ -158,11 +185,10 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Please Provide Your Feedback</h4>
                 </div>
+                <!-- Includes template of submission form from submit_form html -->
                 <div class="modal-body">
                     {% include 'includes/submit_form.html' %}
-
                     {% block content %}
-
                     {% endblock %} 
                 </div>
                 <div class="modal-footer">
@@ -172,6 +198,7 @@
         </div>
     </div>
 
+    <!-- Modal for message interaction after feedback submission -->
     <div class="modal fade" id="message_modal" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
     
@@ -181,6 +208,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Submission Result</h4>
                 </div>
+
+                <!-- Retrieve messages of Django to print out messages after submission -->
                 <div class="modal-body">
                     {% if messages %}
                     <ul class="messages">

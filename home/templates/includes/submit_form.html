@@ -1,6 +1,6 @@
+<!-- This is the template for feedback submit form -->
 <form class = 'form-group' id="feedback_form"  action="submit" method='post'>
         {% csrf_token %}
-        <!-- <table class = 'table'></table> -->
         {% for field in form %}
         <div class="form-group col-auto">
           {{ field.label_tag }}

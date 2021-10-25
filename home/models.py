@@ -1,9 +1,12 @@
+#import libraries
 from django.db import models
 from django.db.models.fields import AutoField
 
 
 class FeedBack(models.Model):
-    """Feedback model"""
+    """Create feedback model so that users can submit their feedback"""
+    
+    #Define each field of the model and characterize them
     id = AutoField(primary_key=True)
     Date = models.DateTimeField(blank = False, null = False)
     Name = models.CharField(max_length = 20, blank = True, null = True)
