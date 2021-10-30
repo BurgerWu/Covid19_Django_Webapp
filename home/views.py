@@ -9,6 +9,7 @@ import pymysql.cursors
 from plotly.offline import plot
 import plotly.graph_objs as go
 from datetime import datetime
+from .db_connections import mysql_connect
 from .utils import *
 from .forms import *
 from .models import FeedBack
@@ -23,7 +24,7 @@ def index(request):
     request.session['num_visits'] = num_visits+1
     
     #Build Mysql connection for later use
-    mysql_connection = pymysql.connect(host="127.0.0.1",user='root',password='password',db='airflow',cursorclass=pymysql.cursors.DictCursor)
+    mysql_connection = mysql_connect.conn
 
     #Return total covid19 cases statistics
     total_cases_sql = "SELECT sum(Number_of_Confirmed_Cases) as total_cases FROM covid19_cases"

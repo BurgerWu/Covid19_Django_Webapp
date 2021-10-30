@@ -5,6 +5,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 from django_plotly_dash import DjangoDash
+from .db_connections import mysql_connect
 import pymysql
 import pandas as pd
 
@@ -58,7 +59,7 @@ def daily_cases_plotly(mysql_connection, group):
     return fig
 
 #Create Mysql connection
-mysql_connection = pymysql.connect(host="127.0.0.1",user='root',password='password',db='airflow',cursorclass=pymysql.cursors.DictCursor)
+mysql_connection = mysql_connect.conn
 
 #Create DjangoDash applicaiton
 app = DjangoDash(name='ImportedPlot')
