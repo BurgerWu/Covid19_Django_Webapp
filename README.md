@@ -35,6 +35,9 @@ This is the application folder for app "home".
 - **utils.py**: Helper function referenced in views.py, mostly for plotting purpose
 - **views.py**: Create views and context to return
 
+### staticfiles
+This folder contains staticfiles collected by Djangp server after running collectstatic command
+
 ### manage.py
 This is the file you interact with Django with, you can assign different jobs by calling this file such as runserver, collectstatic, migrate, etc.
 
@@ -42,10 +45,16 @@ This is the file you interact with Django with, you can assign different jobs by
 This file contains some key packages and their version used in this project you may use *pip install -r requirements.txt* in your environment to install packages
 
 ## Deploy Webapp Locally
-There is some prerequisites for deploying webapp locally:
+### Prerequisites
+There is some prerequisites as well as assumptions for deploying webapp locally:
 - You have MySQL database installed and you already configure connections correctly (Database setting in settings.py and db_connections.py in home)
 - You already have required data stored in MySQL. (If not, you may check instruction in this repo <a href='https://github.com/BurgerWu/airflow_covid19_tw'>airflow_covid19_tw</a> or visit <a href='https://www.kaggle.com/burgerwu/taiwan-covid19-dataset'>Kaggle</a> to download csv and import to MySQL directly) 
 <img src='home/static/images/homepage.png'>
+- You have install packages within requirements.txt
+
+### Steps
+1. Git clone this repository to your computer
+2. Redirect to directory containing 
 
 ## Summary
 
