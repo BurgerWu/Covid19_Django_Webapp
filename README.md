@@ -49,14 +49,21 @@ This file contains some key packages and their version used in this project you 
 There is some prerequisites as well as assumptions for deploying webapp locally:
 - You have MySQL database installed and you already configure connections correctly (Database setting in settings.py and db_connections.py in home)
 - You already have required data stored in MySQL. (If not, you may check instruction in this repo <a href='https://github.com/BurgerWu/airflow_covid19_tw'>airflow_covid19_tw</a> or visit <a href='https://www.kaggle.com/burgerwu/taiwan-covid19-dataset'>Kaggle</a> to download csv and import to MySQL directly) 
-<img src='home/static/images/homepage.png'>
-- You have install packages within requirements.txt
+- You have install packages within requirements.txt (either by running *pip install -r requirements.txt* or manually)
+- **You have created a database called "django_app" in MySQL that is used as database of this project**
 
 ### Steps
 1. Git clone this repository to your computer
-2. Redirect to directory containing 
+2. Redirect to directory containing manage.py
+3. Run **python manage.py migrate** to initialize the database and settings
+4. Run **python manage.py runserver** to start Django server, check if there is any problem with startup
+5. Open your browser and visit localhost:8000 (my default port), if fortunate, you will see page like below
+<img src='home/static/images/homepage.png'>
+
+If not, you may debug from the error message or contact me if you want.
 
 ## Summary
+We have successfully created a web page that visualized the covid19 related statistics of Taiwan. Furthermore, we have added some interactive features under the help of dash and plotly. If you are interested in how the data is acquired and processed, please visit another repository of mine <a href='https://github.com/BurgerWu/airflow_covid19_tw'>here</a>.
 
 ## Acknowledgement
 Special thanks to Taiwan Center of Disease Control and National Center for High-performance Computing for providing high quality and reliable source data for this porject.
