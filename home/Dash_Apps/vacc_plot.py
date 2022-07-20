@@ -28,7 +28,7 @@ def vacc_brand_plotly(mysql_connection, brand):
     Output: Figure object
     """
     #Create SQL command string
-    vacc_brand_sql = """SELECT Date, First_Dose_Daily, Second_Dose_Daily
+    vacc_brand_sql = """SELECT Date, First_Dose_Daily, Second_Dose_Daily, Third_Dose_Beyond_Daily
                         FROM covid19_vaccination 
                         WHERE Brand = '{}' """.format(brand)
     
@@ -37,7 +37,8 @@ def vacc_brand_plotly(mysql_connection, brand):
     
     #Create graph object Figure object with data
     fig = go.Figure(data = [go.Bar(name = 'First_Dose', x = vacc_brand_table['Date'], y = vacc_brand_table['First_Dose_Daily']),
-                            go.Bar(name = 'Second_Dose', x = vacc_brand_table['Date'], y = vacc_brand_table['Second_Dose_Daily'])])
+                            go.Bar(name = 'Second_Dose', x = vacc_brand_table['Date'], y = vacc_brand_table['Second_Dose_Daily']),
+                            go.Bar(name = 'Third_Dose_Beyond', x = vacc_brand_table['Date'], y = vacc_brand_table['Third_Dose_Beyond_Daily'])])
     #Update layout for graph object Figure
     fig.update_layout(barmode='stack', 
                       title_text = 'Daily_Vacinated: ' + brand,

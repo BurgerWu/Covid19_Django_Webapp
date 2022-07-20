@@ -151,7 +151,7 @@ def daily_vacc_plotly(mysql_connection):
     Output: Plot div object
     """
     #Create SQL command string
-    daily_vacc_sql = "SELECT Date, Brand, First_Dose_Daily + Second_Dose_Daily AS Total_Vaccinated_Daily FROM covid19_vaccination"
+    daily_vacc_sql = "SELECT Date, Brand, First_Dose_Daily + Second_Dose_Daily + Third_Dose_Beyond_Daily AS Total_Vaccinated_Daily FROM covid19_vaccination"
     
     #Get table from SQL result
     daily_vacc_table = pd.DataFrame(custom_sql(mysql_connection, daily_vacc_sql))
@@ -186,7 +186,8 @@ def total_vacc_plotly(mysql_connection):
     """
     #Create SQL command string
     total_vacc_sql = """SELECT Brand, SUM(First_Dose_Daily) AS Total_First_Dose, 
-	                                  SUM(Second_Dose_Daily) AS Total_Second_Dose
+	                                  SUM(Second_Dose_Daily) AS Total_Second_Dose,
+                                      SUM(Third_Dose_Beyond_Daily) AS Total_Third_Dose_Beyond 
                         FROM covid19_vaccination
                         GROUP BY Brand"""
     
@@ -195,7 +196,8 @@ def total_vacc_plotly(mysql_connection):
     
     #Create graph object Figure object with data
     fig = go.Figure(data = [go.Bar(name = 'First_Dose', x = total_vacc_table['Brand'], y = total_vacc_table['Total_First_Dose']),
-                            go.Bar(name = 'Second_Dose', x = total_vacc_table['Brand'], y = total_vacc_table['Total_Second_Dose'])])
+                            go.Bar(name = 'Second_Dose', x = total_vacc_table['Brand'], y = total_vacc_table['Total_Second_Dose']),
+                            go.Bar(name = 'Third_Dose_Beyond', x = total_vacc_table['Brand'], y = total_vacc_table['Total_Third_Dose_Beyond'])])
 
     #Update layout for graph object Figure
     fig.update_layout(barmode='stack', 
