@@ -4,7 +4,8 @@
 In our previous repo <a href='https://github.com/BurgerWu/airflow_covid19_tw'>airflow_covid19_tw</a>, we processed data acquired from Taiwanese Center of Disease Control(CDC) and National Center for High-performance Computing (NCHC) and stored it in MySQL database. But we want to do more than that. Therefore, in this project, we will visualized the data with the help of web development framework.
 
 ## Introduction
-This repo is for the web deployment part of Covid19 dashboard project. You may check the airflow, that is, data acquisition and processing part, in another repo called <a href='https://github.com/BurgerWu/airflow_covid19_tw'>airflow_covid19_tw</a>. In this project, we would like to demonstrate the data we acquire from Taiwanese government using Django framework. This repo provides localhost version code, you are welcome to replicate the web page on your own host. In the late section, I will provide steps to local deployment.
+This repo is for the web deployment part of Covid19 dashboard project. You may check the airflow, that is, data acquisition and processing part, in another repo called <a href='https://github.com/BurgerWu/airflow_covid19_tw'>airflow_covid19_tw</a>. In this project, we would like to demonstrate the data we acquire from Taiwanese government using Django framework. This repo provides localhost version code, you are welcome to replicate the web page on your own host. In the late section, I will provide steps to local deployment.<br>
+***Now docker-compose version integration of the two projects is available at this <a href='https://github.com/BurgerWu/Covid19_Taiwan_Dashboard_Docker_Compose'>repository</a>.***
 
 ## Packages Used
 Some key packages and version are located within requirements.txt. Below shows critical packages and their function in this project
@@ -63,7 +64,9 @@ There is some prerequisites as well as assumptions for deploying webapp locally:
 If not, you may debug from the error message or contact me if you want.
 
 ## Summary
-We have successfully created a web page that visualized the covid19 related statistics of Taiwan. Furthermore, we have added some interactive features under the help of dash and plotly. If you are interested in how the data is acquired and processed, please visit another repository of mine <a href='https://github.com/BurgerWu/airflow_covid19_tw'>here</a>.
+We have successfully created a web page that visualized the covid19 related statistics of Taiwan. Furthermore, we have added some interactive features under the help of dash and plotly. If you are interested in how the data is acquired and processed, please visit another repository of mine <a href='https://github.com/BurgerWu/airflow_covid19_tw'>here</a>.<br>
+
+***You are welcome to visit this <a href='https://github.com/BurgerWu/Covid19_Taiwan_Dashboard_Docker_Compose'> repository</a> for more information on docker-compose intergration on these two projects.***
 
 ## Acknowledgement
 Special thanks to Taiwan Center of Disease Control and National Center for High-performance Computing for providing high quality and reliable source data for this porject.
