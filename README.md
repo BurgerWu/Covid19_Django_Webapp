@@ -68,6 +68,9 @@ We have successfully created a web page that visualized the covid19 related stat
 
 ***You are welcome to visit this <a href='https://github.com/BurgerWu/Covid19_Taiwan_Dashboard_Docker_Compose'> repository</a> for more information on docker-compose intergration on these two projects.***
 
+***You can also visit link below to view Power BI online report of this project <br>
+<a href='https://app.powerbi.com/view?r=eyJrIjoiYTQyY2Q3NmQtZjYwYy00NGE0LTljYjUtYTU0YmRkZDc5MGNmIiwidCI6Ijk1Y2U2MTk5LWNhMzYtNDgyMC04N2MzLWQ1NDBjODYwMjcwYyIsImMiOjEwfQ%3D%3D&pageName=ReportSection'>Power BI of Covid19 Taiwan DashBoard Project</a>***
+
 ## Acknowledgement
 Special thanks to Taiwan Center of Disease Control and National Center for High-performance Computing for providing high quality and reliable source data for this porject.
 
